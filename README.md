@@ -23,7 +23,17 @@ In addition to installing the Swarm Plugin (https://wiki.jenkins-ci.org/display/
 
 ### Configuring the Agent
 
-The Java agent example has four configurable settings that you will need to update for your environment. These settings get loaded from the [.env](.env) file when you run the agent from the project's [Makefile](Makefile). 
+The Java agent example has four configurable settings that you will need to update for your environment. These settings get loaded from the [.env](.env) file when you run the agent from the project's [Makefile](Makefile). The four settings are:
+
+* **SWARM_NETWORK** - Optional, the SWARM_NETWORK setting tells Docker which Docker network the container should connect too when it starts up (see the following documentation for more details: https://docs.docker.com/engine/reference/commandline/network_connect/).
+
+* **SWARM_MASTER** - Optional, the SWARM_MASTER parameter tells the CLI Agent which Jenkins master to connect to (must be specified with full URL, e.g.: http://server:8080/jenkins/). If the parameter isn't set the CLI will attempt to auto-discover a master on the local network.
+
+* **SWARM_USER** - Optional, The Jenkins user name to authenticate with.
+* **SWARM_PASS** - Optional, The Jenkins password to authenticate with.
+
+**Note**: The CLI Agent has many additional optional parameters that can be set. Please see the plugin documentation (https://wiki.jenkins-ci.org/display/JENKINS/Swarm+Plugin) for a complete reference. If you choose to add parameters when launching the CLI agent you will need to modify the .env file and the **run-java-agent** section of the Makefile to use the added parameters.
+
 
 ### Building and Running the Agent
 
