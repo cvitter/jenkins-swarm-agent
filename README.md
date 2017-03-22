@@ -35,6 +35,58 @@ The Java agent example has four configurable settings that you will need to upda
 **Note**: The CLI Agent has many additional optional parameters that can be set. Please see the plugin documentation (https://wiki.jenkins-ci.org/display/JENKINS/Swarm+Plugin) for a complete reference. If you choose to add parameters when launching the CLI agent you will need to modify the .env file and the **run-java-agent** section of the Makefile to use the added parameters.
 
 
-### Building and Running the Agent
+### Building the Agent
+
+Before running the agent you need to create the docker image. Open terminal with the project directory and execute the following command:
+
+```
+> make build-java-agent
+```
+
+One the build process have completed your image should be viewble using the ```docker images``` command:
+
+```
+>docker images
+REPOSITORY                                   TAG                 IMAGE ID            CREATED             SIZE
+java-swarm-agent                             latest              892ee402bbe4        17 hours ago        218 MB
+```
+
+### Running the Agent
+
+Once the docker image has been built you can run it using the following command:
+
+```
+> make run-java-agent
+```
+
+Which should output something like the following example if successful:
+
+```
+docker run -d \
+	--network=cjp-demo-environment \
+	java-swarm-agent \
+	java -jar swarm-client-3.3.jar \
+	-master http://cjp.local/cje-prod/ \
+	-username swarmagent \
+	-password swarmagent
+1d7ec68f52377d06676a26ac26c74505f8eea426bddbf8603369eafb159fd745
+```
+
+At this point if you have successfully configured your agent to connect to your Jenkins master you should see the new agent appear in the following places within the master:
+
+* On the dash board under Build Executor Status
+* On the Manage Nodes screen
+
+The node will have an automatically generated name like: ```1d7ec68f5237-a9fd4801```. If you view the node's status page you should see something like the following screen.
+
+![Example swarm agent running on a Jenkins master](images/node-screen.png)
+
+**Note**: The agent has the **swarm** lable attached to it. If you want projects to build on the agent you can use the ```Restrict where this project can be run``` and ```Label Expression``` setting of the build's configuration to tie it to agents with the **swarm** label.
+
+### Stopping the Agent
+
+
+
+
 
  
