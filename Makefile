@@ -25,4 +25,4 @@ run-java-agent:
 # stop-java-agents
 #	Stops all instances of the java-swarm-agent image that are running
 stop-java-agents:
-	docker stop $(docker ps -q --filter ancestor="java-swarm-agent" )
+	docker stop $(docker ps -q --filter ancestor="java-swarm-agent")

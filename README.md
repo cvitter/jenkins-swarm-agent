@@ -47,8 +47,8 @@ One the build process have completed your image should be viewble using the ```d
 
 ```
 >docker images
-REPOSITORY                                   TAG                 IMAGE ID            CREATED             SIZE
-java-swarm-agent                             latest              892ee402bbe4        17 hours ago        218 MB
+REPOSITORY              TAG                 IMAGE ID            CREATED             SIZE
+java-swarm-agent        latest              892ee402bbe4        17 hours ago        218 MB
 ```
 
 ### Running the Agent
@@ -83,10 +83,24 @@ The node will have an automatically generated name like: ```1d7ec68f5237-a9fd480
 
 **Note**: The agent has the **swarm** lable attached to it. If you want projects to build on the agent you can use the ```Restrict where this project can be run``` and ```Label Expression``` setting of the build's configuration to tie it to agents with the **swarm** label.
 
+**Super Useful Tidbit**: You can execute the ```make run-java-agent``` to create as many agents as your Docker environment can host. Each time you execute the command a new, unique agent will be created that will independently connect to your Jenkins master (hence the swarm name).
+
 ### Stopping the Agent
 
+Once you no longer need the agent you created in the previous section you can stop it using the ```docker stop``` command or by executing the following command from our Makefile:
 
+```
+> make stop-java-agents
+```
 
+Under the covers this target action runs the following command that stops all of the agents that have been created using the java-swarm-agent docker image:
 
+```
+docker stop $(docker ps -q --filter ancestor="java-swarm-agent")
+``` 
+ 
+# Questions, Feedback, Pull Requests Etc.
 
+If you have any questions, feedback, suggestions, etc. please submit them via issues or, even better, submit a Pull Request!
+ 
  
