@@ -98,6 +98,10 @@ Under the covers this target action runs the following command that stops all of
 ```
 docker stop $(docker ps -q --filter ancestor="java-swarm-agent")
 ``` 
+
+# Disclaimer
+
+The code in this repository is not sponsored or supported by Cloudbees, Inc.
  
 # Questions, Feedback, Pull Requests Etc.
 
