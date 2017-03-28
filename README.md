@@ -12,7 +12,6 @@ The Java/Maven agent [Dockerfile.java-swarm-agent](dockerfiles/Dockerfile.java-s
 * Maven 3
 * Curl
 * Git
-* Docker
 * The Jenkins Swarm CLI Client
 
 ### Jenkins Configuration
