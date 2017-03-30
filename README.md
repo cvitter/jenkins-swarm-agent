@@ -1,4 +1,4 @@
-# Jenkins Swarm Agents - Examples
+# Jenkins Swarm Agent - Example
 
 Jenkins Swarm agents are stand alone clients that can auto-discover a Jenkins (http://jenkins.io) master and add resources to the master "auto-magically". This repository is intended to provide examples of how to build Docker based swarm agents. The first example added creates an agent that can [perform Java/Maven builds](#javamaven-agent-example). I will add additional examples in the future as time allows.
 
