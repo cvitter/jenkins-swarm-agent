@@ -98,6 +98,10 @@ Under the covers this target action runs the following command that stops all of
 docker stop $(docker ps -q --filter ancestor="java-swarm-agent")
 ``` 
 
+# License
+
+The content in this repository is Open Source material released under the Apache 2.0 License. Please see the LICENSE file for full license details.
+
 # Disclaimer
 
 The code in this repository is not sponsored or supported by Cloudbees, Inc.
