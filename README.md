@@ -100,7 +100,7 @@ docker stop $(docker ps -q --filter ancestor="java-swarm-agent")
 
 # License
 
-The content in this repository is Open Source material released under the Apache 2.0 License. Please see the LICENSE file for full license details.
+The content in this repository is Open Source material released under the Apache 2.0 License. Please see the [LICENSE](LICENSE) file for full license details.
 
 # Disclaimer
 
