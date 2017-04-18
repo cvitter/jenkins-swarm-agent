@@ -15,14 +15,17 @@ build-java-agent:
 #	Passes 4 optional parameters imported from the .env file
 run-java-agent:
 	docker run -d \
-	$(SWARM_NETWORK) \
+	--network=$(SWARM_NETWORK) \
+	--volume /var/run/docker.sock:/var/run/docker.sock \
 	java-swarm-agent \
 	java -jar swarm-client-3.3.jar \
-	$(SWARM_MASTER) \
-	$(SWARM_USER) \
-	$(SWARM_PASS)
+	-master $(SWARM_MASTER) \
+	-username $(SWARM_USER) \
+	-password $(SWARM_PASS) \
+	-executors 1 \
+
 
 # stop-java-agents
 #	Stops all instances of the java-swarm-agent image that are running
 stop-java-agents:
-	docker stop $(docker ps -q --filter ancestor="java-swarm-agent")
+	docker stop $$(docker ps -q --filter ancestor="java-swarm-agent")
