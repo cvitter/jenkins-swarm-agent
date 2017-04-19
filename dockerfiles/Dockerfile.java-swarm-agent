@@ -6,8 +6,6 @@ USER root
 # Update and upgrade apk then install curl, maven, git, and nodejs
 RUN apk update && \
 	apk upgrade && \
-	apk --no-cache add bash && \
-	apk --no-cache add bash-completion && \
 	apk --no-cache add curl && \
 	apk --no-cache add maven && \
 	apk --no-cache add git && \
