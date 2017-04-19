@@ -12,11 +12,12 @@ build-swarm-agent:
 
 # run-java-agent
 #	Runs the docker image created in build-java-agent above.
-#	Passes 4 optional parameters imported from the .env file
+# NOTE: Params must exist in .env file
 swarm-agent:
 	docker run -d \
 	--network=$(SWARM_NETWORK) \
 	--volume /var/run/docker.sock:/var/run/docker.sock \
+	--volume ${MAVEN_CACHE}:/root/.m2 \
 	java-swarm-agent \
 	java -jar swarm-client-3.3.jar \
 	-master $(SWARM_MASTER) \
