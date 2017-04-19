@@ -22,7 +22,7 @@ swarm-agent:
 	-master $(SWARM_MASTER) \
 	-username $(SWARM_USER) \
 	-password $(SWARM_PASS) \
-	-executors 1 \
+	-executors $(SWARM_EXECUTORS) \
 
 
 # stop-java-agents
