@@ -12,6 +12,7 @@ The Java/Maven agent [Dockerfile.java-swarm-agent](dockerfiles/Dockerfile.java-s
 * Maven 3
 * Curl
 * Git
+* Docker
 * The Jenkins Swarm CLI Client
 
 ### Jenkins Configuration
@@ -31,6 +32,10 @@ The Java agent example has four configurable settings that you will need to upda
 * **SWARM_USER** - Optional, The Jenkins user name to authenticate with.
 * **SWARM_PASS** - Optional, The Jenkins password to authenticate with.
 
+* **SWARM_EXECUTORS** - The number of executors to assign to the agent.
+
+* **MAVEN_CACHE** - Local Maven cache the docker image can use to speed up builds.
+
 **Note**: The CLI Agent has many additional optional parameters that can be set. Please see the plugin documentation (https://wiki.jenkins-ci.org/display/JENKINS/Swarm+Plugin) for a complete reference. If you choose to add parameters when launching the CLI agent you will need to modify the .env file and the **run-java-agent** section of the Makefile to use the added parameters.
 
 
@@ -39,7 +44,7 @@ The Java agent example has four configurable settings that you will need to upda
 Before running the agent you need to create the docker image. Open terminal with the project directory and execute the following command:
 
 ```
-> make build-java-agent
+> make build-swarm-agent
 ```
 
 One the build process have completed your image should be viewble using the ```docker images``` command:
@@ -47,7 +52,7 @@ One the build process have completed your image should be viewble using the ```d
 ```
 >docker images
 REPOSITORY              TAG                 IMAGE ID            CREATED             SIZE
-java-swarm-agent        latest              892ee402bbe4        17 hours ago        218 MB
+java-swarm-agent        latest              892ee402bbe4        17 hours ago        231 MB
 ```
 
 ### Running the Agent
@@ -55,7 +60,7 @@ java-swarm-agent        latest              892ee402bbe4        17 hours ago    
 Once the docker image has been built you can run it using the following command:
 
 ```
-> make run-java-agent
+> make swarm-agent
 ```
 
 Which should output something like the following example if successful:
@@ -63,12 +68,16 @@ Which should output something like the following example if successful:
 ```
 docker run -d \
 	--network=cjp-demo-environment \
+	--volume /var/run/docker.sock:/var/run/docker.sock \
+	--volume /Users/craigvitter/.m2:/root/.m2 \
 	java-swarm-agent \
 	java -jar swarm-client-3.3.jar \
 	-master http://cjp.local/cje-prod/ \
-	-username swarmagent \
-	-password swarmagent
-1d7ec68f52377d06676a26ac26c74505f8eea426bddbf8603369eafb159fd745
+	-username admin \
+	-password admin \
+	-executors 1 \
+
+7517c903194c1913db5b83ede71dbe0d960f99b45d9ba8541221ab39d837e43f
 ```
 
 At this point if you have successfully configured your agent to connect to your Jenkins master you should see the new agent appear in the following places within the master:
@@ -82,14 +91,14 @@ The node will have an automatically generated name like: ```1d7ec68f5237-a9fd480
 
 **Note**: The agent has the **swarm** lable attached to it. If you want projects to build on the agent you can use the ```Restrict where this project can be run``` and ```Label Expression``` setting of the build's configuration to tie it to agents with the **swarm** label.
 
-**Super Useful Tidbit**: You can execute the ```make run-java-agent``` to create as many agents as your Docker environment can host. Each time you execute the command a new, unique agent will be created that will independently connect to your Jenkins master (hence the swarm name).
+**Super Useful Tidbit**: You can execute the ```make swarm-agent``` to create as many agents as your Docker environment can host. Each time you execute the command a new, unique agent will be created that will independently connect to your Jenkins master (hence the swarm name).
 
 ### Stopping the Agent
 
 Once you no longer need the agent you created in the previous section you can stop it using the ```docker stop``` command or by executing the following command from our Makefile:
 
 ```
-> make stop-java-agents
+> make destroy
 ```
 
 Under the covers this target action runs the following command that stops all of the agents that have been created using the java-swarm-agent docker image:
@@ -105,6 +114,11 @@ The content in this repository is Open Source material released under the Apache
 # Disclaimer
 
 The code in this repository is not sponsored or supported by Cloudbees, Inc.
+
+# Authors and Contributors 
+
+* Author: [Craig Vitter](https://github.com/cvitter)
+* Contributor: [David Schott](https://github.com/schottsfired)
  
 # Questions, Feedback, Pull Requests Etc.
 
