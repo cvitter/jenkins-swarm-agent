@@ -2,7 +2,7 @@ include .env
 
 default:
 
-# build-java-agent:
+# build-swarm-agent:
 # 	Builds a docker image using Dockerfile.java-swarm-agent
 #	with Java JDK, Maven, Git, and Docker installed
 build-swarm-agent:
@@ -10,7 +10,7 @@ build-swarm-agent:
 	-f dockerfiles/Dockerfile.java-swarm-agent \
 	-t java-swarm-agent .
 
-# run-java-agent
+# swarm-agent
 #	Runs the docker image created in build-java-agent above.
 # NOTE: Params must exist in .env file
 swarm-agent:
@@ -26,7 +26,7 @@ swarm-agent:
 	-executors $(SWARM_EXECUTORS) \
 
 
-# stop-java-agents
+# destroy
 #	Stops all instances of the java-swarm-agent image that are running
 destroy:
 	docker stop $$(docker ps -q --filter ancestor="java-swarm-agent")
